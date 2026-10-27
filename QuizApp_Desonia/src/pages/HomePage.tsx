@@ -1,76 +1,57 @@
 import { motion } from 'framer-motion'
-import { ArrowRight, Sparkles, Star } from 'lucide-react'
+import { ArrowRight, CheckCircle2, Code2, Sparkles, Trophy } from 'lucide-react'
 import { useNavigate } from 'react-router-dom'
-
-const backgroundBubbles = [
-  { className: 'bubble bubble-one' },
-  { className: 'bubble bubble-two' },
-  { className: 'bubble bubble-three' },
-  { className: 'bubble bubble-four' },
-  { className: 'bubble bubble-five' },
-  { className: 'bubble bubble-six' },
-  { className: 'bubble bubble-seven' },
-  { className: 'bubble bubble-eight' },
-  { className: 'bubble bubble-nine' },
-]
-
-const welcomeStars = Array.from({ length: 22 }, (_, index) => ({
-  className: `welcome-star welcome-star-${index + 1}`,
-  type: index % 3 === 0 ? 'sparkle' : 'star',
-}))
 
 export default function HomePage() {
   const navigate = useNavigate()
 
   return (
     <main className="page home-page">
-      <div className="moving-background" aria-hidden="true">
-        {backgroundBubbles.map((bubble, index) => (
-          <span key={index} className={bubble.className} />
-        ))}
-        <div className="welcome-stars">
-          {welcomeStars.map(({ className, type }, index) => {
-            const Icon = type === 'sparkle' ? Sparkles : Star
-            return (
-              <motion.span
-                key={className}
-                className={className}
-                animate={{
-                  y: [0, -7 - (index % 4) * 2, 0],
-                  rotate: [0, index % 2 ? 12 : -12, 0],
-                  scale: [0.85, 1.18, 0.9],
-                  opacity: [0.35, 1, 0.45],
-                }}
-                transition={{
-                  duration: 1.9 + (index % 5) * 0.35,
-                  repeat: Infinity,
-                  ease: 'easeInOut',
-                  delay: index * 0.12,
-                }}
-              >
-                <Icon size={12 + (index % 4) * 5} />
-              </motion.span>
-            )
-          })}
-        </div>
+      <div className="ambient-glows" aria-hidden="true">
+        <div className="glow-orb glow-orb-1" />
+        <div className="glow-orb glow-orb-2" />
+        <div className="glow-orb glow-orb-3" />
       </div>
+
       <motion.div
         className="home-card"
-        initial={{ opacity: 0, y: 35 }}
+        initial={{ opacity: 0, y: 28 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: .6, ease: 'easeOut' }}
+        transition={{ duration: 0.5, ease: 'easeOut' }}
       >
-        <div className="sparkle"><Sparkles size={18} /></div>
-        <p className="welcome">Welcome to the</p>
-        <h1>Frontend Quiz!</h1>
-        <p className="description">Test your knowledge of HTML, CSS, JavaScript, React, and modern web development.</p>
+        <div className="home-badge">
+          <Sparkles size={14} />
+          <span>Interactive Frontend Challenge</span>
+        </div>
+
+        <h1>
+          Test Your <span className="gradient-text">Frontend Mastery</span>
+        </h1>
+
+        <p className="description">
+          Sharpen your knowledge in modern HTML, CSS, JavaScript, TypeScript, and React with our curated quick quiz.
+        </p>
+
+        <div className="features-list">
+          <span className="feature-pill">
+            <Code2 size={15} /> 10 Curated Questions
+          </span>
+          <span className="feature-pill">
+            <CheckCircle2 size={15} /> Instant Feedback
+          </span>
+          <span className="feature-pill">
+            <Trophy size={15} /> Detailed Results
+          </span>
+        </div>
+
         <motion.button
           className="gradient-button"
           onClick={() => navigate('/quiz')}
-          whileHover={{ scale: 1.04 }}
-          whileTap={{ scale: .96 }}
+          whileHover={{ scale: 1.03 }}
+          whileTap={{ scale: 0.97 }}
         >
-          Start Quiz <ArrowRight size={18} />
+          <span>Start Quiz</span>
+          <ArrowRight size={18} />
         </motion.button>
       </motion.div>
     </main>

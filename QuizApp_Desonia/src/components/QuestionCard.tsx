@@ -18,17 +18,23 @@ export default function QuestionCard({
   return (
     <motion.section
       className="question-card"
-      initial={{ opacity: 0, y: 24 }}
+      key={question.id}
+      initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.45, ease: 'easeOut' }}
+      exit={{ opacity: 0, y: -20 }}
+      transition={{ duration: 0.35, ease: 'easeOut' }}
     >
-      <div className="question-label">Question {question.id}</div>
+      <div className="question-badge">
+        <span>Question {question.id}</span>
+      </div>
+
       <h2>{question.question}</h2>
 
-      <div className="answers">
-        {question.choices.map((choice) => (
+      <div className="answers-grid">
+        {question.choices.map((choice, idx) => (
           <AnswerOption
             key={choice}
+            index={idx}
             label={choice}
             selected={selected === choice}
             correct={answered && choice === question.answer}
@@ -41,24 +47,27 @@ export default function QuestionCard({
 
       {answered && (
         <motion.div
-          className={`answer-feedback ${isCorrect ? 'correct-feedback' : 'incorrect-feedback'}`}
-          initial={{ opacity: 0, y: 12, scale: 0.97 }}
+          className={`feedback-banner ${isCorrect ? 'correct-feedback' : 'incorrect-feedback'}`}
+          initial={{ opacity: 0, y: 10, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 0.35 }}
+          transition={{ duration: 0.25 }}
           aria-live="polite"
         >
-        <div className="feedback-icon" aria-hidden="true">
-          {isCorrect ? <Check size={28} strokeWidth={3} /> : <X size={28} strokeWidth={3} />}
-        </div>
-        <div className="feedback-copy">
-          <strong>{isCorrect ? 'Correct!' : 'Incorrect!'}</strong>
-          <span>
-            {isCorrect
-              ? 'Great job! You got the correct answer.'
-              : <>The correct answer is <b>{question.answer}</b>.</>}
-          </span>
-        </div>
-
+          <div className="feedback-icon-box" aria-hidden="true">
+            {isCorrect ? <Check size={22} strokeWidth={3} /> : <X size={22} strokeWidth={3} />}
+          </div>
+          <div className="feedback-details">
+            <strong>{isCorrect ? 'Correct! Excellent job.' : 'Not quite right'}</strong>
+            <span>
+              {isCorrect ? (
+                'You selected the correct answer.'
+              ) : (
+                <>
+                  The correct answer is <b>{question.answer}</b>.
+                </>
+              )}
+            </span>
+          </div>
         </motion.div>
       )}
     </motion.section>
